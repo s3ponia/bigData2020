@@ -50,7 +50,12 @@ public class Application {
                                 .partitionBy("room_type")
                         )
                 )
-                .withColumn("price_mode", first("price").over(Window.orderBy("cnt").partitionBy("room_type")).as("mode"))
+                .withColumn("price_mode", first("price")
+                        .over(
+                                Window
+                                        .orderBy("cnt")
+                                        .partitionBy("room_type")
+                        ).as("mode"))
                 .groupBy("room_type")
                 .agg(
                         first("price_mode").as("mode"),
